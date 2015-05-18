@@ -64,8 +64,21 @@ void FacetsOfLambda(void)
 	cout << endl << "facet8: " << count << endl;
 
 	//9 change local vars with reference in capture list
-	auto fn9 = [&i7]{i7=i7<<1; };
-	cout << "facet9: " << fn() << endl;
+	int i9 = 42;
+	auto fn9 = [&i9]{return ++i9; };     //ret 43
+	cout << "facet9: " <<"i9= "<<i9<<"  fn9: "<< fn9() << endl;  // output 43
+
+	i9 = 21;
+	cout << "facet9: " << fn9() << endl;  //output 22
+
+	//10change local vars with reference in capture list
+	//auto fn10 = [i7]{i7 = i7 << 1; }; //this wont compile
+	auto i10 = 42;
+	auto fn10 = [i10]{return i10; };
+	cout << "facet10: " << fn10() << endl;  //not changed
+	i10 = 21;
+	cout << "facet10: " << fn10() << endl;  //still output 42...!!
+
 
 
 	/*
@@ -77,6 +90,9 @@ void FacetsOfLambda(void)
 	[&, var_val_list]: (e.g.  [&, name, age, gender] )   var_val_list is value capture list; other varable is implicit by reference
 	[=, var_ref_list]: (e.g.  [&, name, age, gender] )   var_ref_list is reference capture list; other varable is implicit by value
 	*/
+
+
+
 }
 
 
