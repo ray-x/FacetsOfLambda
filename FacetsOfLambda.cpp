@@ -79,19 +79,64 @@ void FacetsOfLambda(void)
 	i10 = 21;
 	cout << "facet10: " << fn10() << endl;  //still output 42...!!
 
+	//11 value capture list in loop
+	int i11=0;
+	auto fn11 = [i11]{cout<<" i11 "<< i11<<" "; };
+	auto m11 = { 1, 2, 3, 4 };
+	//ops, all print out 0!
+	for (auto i : m11) { i11 = i; fn11(); }
+	//output: i11 0  i11 0  i11 0  i11 0
+	cout << endl;
 
 
 	/*
-	capture list :
+	capture list recap:
 	[] : do not capture any local variables
 	[var_list]: capture a list of variables seperated with ','  e.g.  [name, age, gender];
 	[&]: implicit by reference capture list: any vars used in lambda are implicit in local vars 
 	[=]: implicit by value capture list: any vars used in lambda are implicit in local vars
 	[&, var_val_list]: (e.g.  [&, name, age, gender] )   var_val_list is value capture list; other varable is implicit by reference
-	[=, var_ref_list]: (e.g.  [&, name, age, gender] )   var_ref_list is reference capture list; other varable is implicit by value
+	[=, var_ref_list]: (e.g.  [=, &name, &age, &gender] )   var_ref_list is reference capture list; other varable is implicit by value
 	*/
 
 
+	//12 using [=]
+	int i12 = 0;
+	auto fn12 = [=]{cout  << " i12 " << i12 << " "; };
+	auto m12 = { 1, 2, 3, 4 };
+	//ops, all print out 0!
+	for (auto i : m11) { i12 = i; fn12(); }
+	cout << endl;
+	// output :  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0
+	
+	//13 using [&]
+	int i13 = 0;
+	auto fn13 = [&]{cout << " i13 " << i13 << " "; };
+	auto m13 = { 1, 2, 3, 4 };
+	//ops, all print out 0!
+	for (auto i : m11) { i13 = i; fn13(); }
+	cout << endl;
+	// output :  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0  i11 0
+
+
+	//14:  [&, var_val_list]
+	int age = 14;
+	string name{ "ray" };
+	char gender{'M'};
+	
+	// this wont compile:  auto fn14 = [&, gender]{age++; gender = 'F'; };
+	auto fn14 = [&, gender]{ ++age; cout << "facet14" << "age: " << age << "gender: " << gender << endl; };
+	cout << "what is age now?  it is:" << age << endl;
+	//output what is age now?  it is:14
+
+
+	//15:  [=, var_ref_list]
+
+	// this wont compile:  auto fn14 = [=, gender]{age++; gender = 'F'; }; //you can not change age now
+	auto fn15 = [=, &gender, &name]{ gender = 'F'; name = "Jean"; };
+	fn15();
+	cout << "facet15" << " gender: " << gender << "name: " << name << endl;
+	//output what is age now?  it is:14
 
 }
 
