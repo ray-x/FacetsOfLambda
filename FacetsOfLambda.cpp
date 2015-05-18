@@ -2,20 +2,20 @@
 #include<string>
 #include<iostream>
 #include <algorithm>
+#include<functional>
 using namespace std;
 //[capture list] (parameter list) -> return type  { function body }
 //here is a list of different ways to use lambda
-
+int f(int a, int b)	{ return (a + b); };
 void FacetsOfLambda(void)
 {
 	//1 basic use no arguement
 	auto fn = []{return 42; };
-
 	cout << "facet1: " << fn() << endl;
+
 
 	//2 with arglist
 	auto fn2 = [](int a, int b){return a + b; };
-
 	cout << "facet2: " << fn2(42, 42) << endl;
 
 
@@ -131,12 +131,50 @@ void FacetsOfLambda(void)
 
 
 	//15:  [=, var_ref_list]
-
 	// this wont compile:  auto fn14 = [=, gender]{age++; gender = 'F'; }; //you can not change age now
 	auto fn15 = [=, &gender, &name]{ gender = 'F'; name = "Jean"; };
 	fn15();
 	cout << "facet15" << " gender: " << gender << "name: " << name << endl;
 	//output what is age now?  it is:14
+
+	//16: mutable Lambda
+	auto fn16 = [gender, name]()mutable{
+		gender = 'M'; name = "John"; 
+		cout << "facet16 inside fun" << " gender: " << gender << " name: " << name << endl;
+		// output gender: M name: John
+	};  //parameter list can not be omited without mutable this line wont compile
+	fn16();
+	cout << "facet16" << " gender: " << gender << "name: " << name << endl;
+
+	//17 more fun with mutable
+	auto fn17 = [name]()mutable{ return name = "Tom"; };
+	name = fn17();
+	cout << "facet17" << " name: " << name << endl;
+	//output facet17 name: Tom
+
+	//18 lambda with return type    -> typename
+	//usage: sometime compiler can not deduce the return type
+	// you will need use trailing return type
+	auto fn18 = [](int i)->char{
+		if (i == 0)
+			return '0';
+		else
+			return '1';
+	};
+
+
+	//bind with lambda
+	// 19 bind1st
+	auto fn19 = [](int a, int b){return a+b; };
+
+	auto bfn19 = bind([](int a, int b){return a + b; }, 1, 5);
+	auto bfn19_1 = bind([](int a, int b){return a + b; }, 1); 
+	cout << endl << "fn19:  bind([](int a, int b){return a + b; }, 1, 5);" << bfn19() << endl;
+
+	//facet 20: lambda inside lambda
+	auto fn20 = [](int a, int b) { return a + b; };
+	auto sum42 = [&](int b) { return fn20(42, b); };
+	cout << endl << "fn20:  " << sum42(12) << endl;
 
 }
 
