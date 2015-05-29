@@ -1,4 +1,6 @@
-﻿#include<vector>
+﻿//Ray: this program create a list of usages in C++11  
+
+#include<vector>
 #include<string>
 #include<iostream>
 #include <algorithm>
@@ -194,11 +196,11 @@ void FacetsOfLambda(void)
 	cout << endl;  //should output 0~9
 
 	//facet 23: combin lambda with STL sort
-	reverse(v22.begin(), v22.end());   //v22 is 9,8,7,6....0
-	sort(v22.begin(), v22.end(), \
+	vector<unsigned int> v23 = { 83, 86, 77, 15, 93, 35, 86, 92, 49, 21 };
+	sort(v23.begin(), v23.end(), \
 		[]( unsigned int a,  unsigned int b){return a < b; });
-	for (auto m : v22)
-		cout << "fn23:  " << m << " ";
+	for (auto m : v23)
+		cout << " " << m ;
 	cout << endl;  //should output 0~9
 
 	
