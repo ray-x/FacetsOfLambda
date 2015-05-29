@@ -176,6 +176,32 @@ void FacetsOfLambda(void)
 	auto sum42 = [&](int b) { return fn20(42, b); };
 	cout << endl << "fn20:  " << sum42(12) << endl;
 
+	//facet 21: instant excuction
+	//because lambda is function, so we can treat lambda as function and make a call like foo(a,b)...
+	auto fn21=( [](int a, int b) { return a + b; })(1,3);
+	cout << endl << "fn21:  " << fn21 << endl;  //ouput fn21 is 4
+
+
+
+	//facet 22: combin lambda with STL generate
+	vector<unsigned int> v22 = {};
+	auto i22 = 0;
+	generate_n(back_inserter(v22), 10, [&i22]()-> unsigned int{
+		return i22++;
+	});
+	for (auto m: v22)
+		cout <<  "fn22:  " << m <<" ";
+	cout << endl;  //should output 0~9
+
+	//facet 23: combin lambda with STL sort
+	reverse(v22.begin(), v22.end());   //v22 is 9,8,7,6....0
+	sort(v22.begin(), v22.end(), \
+		[]( unsigned int a,  unsigned int b){return a < b; });
+	for (auto m : v22)
+		cout << "fn23:  " << m << " ";
+	cout << endl;  //should output 0~9
+
+	
 }
 
 
