@@ -1,4 +1,5 @@
-﻿//Ray: this program create a list of usages in C++11  
+﻿//Ray: this program create a list of usages in C++11
+//Hope the code examples can help use lambda better 
 
 #include<vector>
 #include<string>
